@@ -1,0 +1,46 @@
+# labelrank report
+engine: relax (HYPHY 2.5.101(MP) for Linux on x86_64 x86 SSE4 SIMD zlib (v1.3.2)); test label 'otter', reference 'back'; alternatives written 19 of 48 found (sampled)
+
+## observed label (1 seeds; Enhydra_lutris_kenyoni_SCNN1G)
+  observed_s1  LRT 4.7930  P 0.02858  K 0.08263  best logL -19896.4029 (alternative)
+    note: 1 reference branch(es) deleted as zero-length (names as in the run's tree.nwk): LRn84
+  observed LRT 4.7930 (best alternative vs best null fit over 1 seeds), P 0.02858, K 0.08263
+  gate: P <= 0.05 -> PASSED (seeds individually: 1 of 1 at P <= 0.05)
+
+## rank among same-shaped labels
+  (a) all alternatives: 19 read (of 19 written; in the drawn order up to the stopping point); LRT >= observed: 1; rank 2 of 20
+  (b) length-matched (test-set length within x2 of 0.00365): 7 alternatives; LRT >= observed: 0; rank 1 of 8
+  primary P: the sequential P below (a rank-based P over a stopped walk would be biased)
+  length: 26% of the alternatives are shorter than the observed test set
+  length vs LRT among the alternatives: Spearman rho 0.74 (n = 19); longer lineages give larger LRTs on this tree, so reading (b) matters
+  (ranks among this tree's lineages of the same shape; lineages differ in history and are not independent, so these are calibrations, not exact null distributions)
+  sequential reading (Besag-Clifford, h = 3): not stopped after 19 alternatives in the drawn order, 1 at or above the observed LRT; sequential P = 0.1000
+  secondary (directional): alternatives with LRT >= observed and K on the observed side (relax): 1 of 19
+  alternatives significant by the chi-square reading (P <= 0.05): 1 of 19 (5.3%), 1 on the observed side
+  warning (alt005_s1): RELAX refitted after a negative LRT (2 passes); read from relax.json
+  warning (alt005_s1): two alternative fits on opposite sides of K=1 (logL -19897.797 with K 0.485; -19897.844 with K 2.41); the higher one is used
+  warning (alt007_s1): RELAX refitted after a negative LRT (2 passes); read from relax.json
+  warning (alt013_s1): RELAX refitted after a negative LRT (6 passes); read from relax.json
+  warning (alt013_s1): alternative logL below null logL by 0.0022: the optimizer did not converge
+  warning (alt015_s1): two alternative fits on opposite sides of K=1 (logL -19896.513 with K 9.86; -19896.741 with K 0); the higher one is used
+
+## per alternative (label, length, length-matched, LRT, P, K, branches), by LRT
+  alt012  0.03991  n  5.091  0.024  0.601  Equus_caballus_SCNN1G
+  alt004  0.05776  n  3.521  0.0606  1.583  Sus_scrofa_SCNN1G
+  alt017  0.00724  y  2.546  0.111  1.941  Martes_flavidula_SCNN1G
+  alt001  0.02882  n  2.440  0.118  2.426  Dasypus_novemcinctus_SCNN1G
+  alt015  0.00051  n  2.120  0.145  9.859  Ursus_maritimus_SCNN1G
+  alt002  0.00968  n  1.483  0.223  0.524  Cabassous_unicinctus_SCNN1G
+  alt011  0.03503  n  1.455  0.228  0.779  Hippopotamus_amphibius_SCNN1G
+  alt016  0.01093  n  1.001  0.317  1.491  Eira_barbara_SCNN1G
+  alt003  0.04511  n  0.752  0.386  0.800  Tamandua_tetradactyla_SCNN1G
+  alt010  0.02417  n  0.552  0.458  1.418  Antilocapra_americana_SCNN1G
+  alt008  0.00700  y  0.526  0.468  1.419  Hippotragus_niger_SCNN1G
+  alt019  0.00571  y  0.500  0.479  1.448  Lontra_canadensis_SCNN1G
+  alt014  0.00574  y  0.299  0.585  1.382  Tremarctos_ornatus_SCNN1G
+  alt018  0.00658  y  0.286  0.593  1.405  Neogale_vison_SCNN1G
+  alt007  0.00196  y  0.136  0.713  1.610  Capra_hircus_SCNN1G
+  alt005  0.00152  n  0.097  0.755  0.485  Tragulus_javanicus_SCNN1G
+  alt009  0.00048  n  0.017  0.897  1.376  Moschus_berezovskii_SCNN1G
+  alt006  0.00000  n  0.000  1  1.967  Tragulus_kanchil_SCNN1G
+  alt013  0.00562  y  0.000  1  1.000  Ailuropoda_melanoleuca_SCNN1G

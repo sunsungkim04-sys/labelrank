@@ -1,0 +1,27 @@
+# labelrank report
+engine: codeml (PAML 4.10.10); test label '#1', background = every unmarked branch; alternatives written 9 of 27 found (sampled)
+
+## observed label (1 seeds; (Dugong_dugong_SCNN1A+Trichechus_manatus_latirostris_SCNN1A),Dugong_dugong_SCNN1A,Trichechus_manatus_latirostris_SCNN1A)
+  observed_s1  LRT 0.0000  P 1  K 1  best logL -22062.1745 (alternative)
+  observed LRT 0.0000 (best alternative vs best null fit over 1 seeds), P 1
+  gate: P <= 0.05 -> NOT PASSED (the observed label is not significant here; the ranks below are still computed) (seeds individually: 0 of 1 at P <= 0.05)
+
+## rank among same-shaped labels
+  (a) all alternatives: 9 read (of 9 written); LRT >= observed: 9; rank 10 of 10
+  (b) length-matched (test-set length within x2 of 0.05071): 4 alternatives; LRT >= observed: 4; rank 5 of 5
+  a reading with N + 1 < 20 gives its rank only; no P value is claimed for it
+  length: 78% of the alternatives are shorter than the observed test set - the observed label is longer than most; short lineages give small LRTs whatever their biology, so reading (a) favours it; weigh reading (b)
+  length vs LRT among the alternatives: not defined (1 of 9 alternatives have LRT >= 0.01; the rest tie at 0)
+  (ranks among this tree's lineages of the same shape; lineages differ in history and are not independent, so these are calibrations, not exact null distributions)
+  alternatives significant by the chi-square reading (P <= 0.05): 0 of 9 (0.0%)
+
+## per alternative (label, length, length-matched, LRT, P, foreground omega2, branches), by LRT
+  alt005  0.03863  y  0.758  0.192  3.106  (Mesoplodon_bidens_SCNN1A+Ziphius_cavirostris_SCNN1A),Mesoplodon_bidens_SCNN1A,Ziphius_cavirostris_SCNN1A
+  alt001  0.11985  n  0.000  1  1.000  (Echinops_telfairi_SCNN1A+Negosale_talazaci_SCNN1A),Echinops_telfairi_SCNN1A,Negosale_talazaci_SCNN1A
+  alt002  0.09150  y  0.000  1  1.000  (Heterohyrax_brucei_SCNN1A+Procavia_capensis_SCNN1A),Heterohyrax_brucei_SCNN1A,Procavia_capensis_SCNN1A
+  alt003  0.03652  y  0.000  1  1.000  (Elephas_maximus_SCNN1A+Loxodonta_africana_SCNN1A),Elephas_maximus_SCNN1A,Loxodonta_africana_SCNN1A
+  alt004  0.02001  n  0.000  1  1.000  (Damaliscus_lunatus_SCNN1A+Hippotragus_niger_SCNN1A),Damaliscus_lunatus_SCNN1A,Hippotragus_niger_SCNN1A
+  alt006  0.00252  n  0.000  1  1.000  (Lagenorhynchus_obliquidens_SCNN1A+Tursiops_truncatus_SCNN1A),Lagenorhynchus_obliquidens_SCNN1A,Tursiops_truncatus_SCNN1A
+  alt007  0.02771  y  0.000  1  1.000  (Inia_geoffrensis_SCNN1A+Pontoporia_blainvillei_SCNN1A),Inia_geoffrensis_SCNN1A,Pontoporia_blainvillei_SCNN1A
+  alt008  0.00453  n  0.000  1  1.000  (Mirounga_angustirostris_SCNN1A+Mirounga_leonina_SCNN1A),Mirounga_angustirostris_SCNN1A,Mirounga_leonina_SCNN1A
+  alt009  0.01062  n  0.000  1  1.000  (Mustela_nivalis_SCNN1A+Mustela_putorius_furo_SCNN1A),Mustela_nivalis_SCNN1A,Mustela_putorius_furo_SCNN1A

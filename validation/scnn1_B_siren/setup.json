@@ -1,0 +1,50 @@
+{
+ "tool": "labelrank",
+ "engine": "relax",
+ "alignment": "Source-Data-6/Hyphy_analysis/all_B.fasta",
+ "alignment_sha256": "dd66743ca9636f26d459e09b78907f87e35484d418b06cb53125fc521cd018b5",
+ "tree": "Source-Data-6/Hyphy_analysis/tree_B_z.tre",
+ "tree_sha256": "93d6b25b3fc341f4c940b6975fdfe9177b6b44d0a77d6364b1aca60841fbe393",
+ "test": "siren",
+ "reference": "back",
+ "orig_label": "orig",
+ "seeds": [
+  1,
+  2
+ ],
+ "alt_seeds": [
+  1,
+  2
+ ],
+ "length_ratio": 2.0,
+ "length_matched_only": false,
+ "max_alternatives": 19,
+ "sample_seed": 1,
+ "alternatives_found": 46,
+ "alternatives_written": 19,
+ "alternatives_before_length_filter": 19,
+ "drawn_at_random": false,
+ "raw_combinations": 46,
+ "sampled": true,
+ "shapes": [
+  [
+   "tip",
+   "t"
+  ]
+ ],
+ "internal_nodes_named": 90,
+ "observed_length": 0.036705013,
+ "engine_version": "HYPHY 2.5.101(MP) for Linux on x86_64 x86 SSE4 SIMD zlib (v1.3.2)",
+ "relax_bf": "<hyphy 2.5.101 prefix>/share/hyphy/TemplateBatchFiles/SelectionAnalyses/RELAX.bf",
+ "relax_bf_sha256": "56df261b6dc8f0b704672a79c306ffb9203ecb5ec2f1a727e96128c8b3a905c3",
+ "genetic_code": 1,
+ "genetic_code_name": "Universal",
+ "exclude": [],
+ "excluded_reference_branches": 0,
+ "input_warnings": [],
+ "sequential_h": null,
+ "alpha": 0.05,
+ "direction": null,
+ "tool_version": "0.4.0",
+ "path_note": "local paths replaced by their location in the Zenodo deposit; sha256 values identify the files"
+}

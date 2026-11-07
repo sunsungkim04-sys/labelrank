@@ -1,0 +1,3 @@
+# labelrank batch report: 2 gene(s) set up, 0 skipped at setup
+genes with a complete reading: 0; observed label passed the gate in 0 of them
+2 gene(s) set up with sequential stopping are not counted above (their reading is the sequential P; a walk that could stop is not a full rank, even when it ran to the end)

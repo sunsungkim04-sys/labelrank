@@ -1,0 +1,21 @@
+run	role	label	seed	n_branches	length	length_matched	branches	order
+observed_s1	observed	observed	1	1	0.003650739	yes	Enhydra_lutris_kenyoni_SCNN1G	
+alt001_s1	alternative	alt001	1	1	0.028817543	no	Dasypus_novemcinctus_SCNN1G	9
+alt002_s1	alternative	alt002	1	1	0.009675442	no	Cabassous_unicinctus_SCNN1G	13
+alt003_s1	alternative	alt003	1	1	0.045109802	no	Tamandua_tetradactyla_SCNN1G	4
+alt004_s1	alternative	alt004	1	1	0.057755161	no	Sus_scrofa_SCNN1G	5
+alt005_s1	alternative	alt005	1	1	0.001522739	no	Tragulus_javanicus_SCNN1G	2
+alt006_s1	alternative	alt006	1	1	6e-09	no	Tragulus_kanchil_SCNN1G	10
+alt007_s1	alternative	alt007	1	1	0.001959272	yes	Capra_hircus_SCNN1G	17
+alt008_s1	alternative	alt008	1	1	0.00700156	yes	Hippotragus_niger_SCNN1G	15
+alt009_s1	alternative	alt009	1	1	0.000475701	no	Moschus_berezovskii_SCNN1G	19
+alt010_s1	alternative	alt010	1	1	0.024174188	no	Antilocapra_americana_SCNN1G	11
+alt011_s1	alternative	alt011	1	1	0.035025023	no	Hippopotamus_amphibius_SCNN1G	16
+alt012_s1	alternative	alt012	1	1	0.039910439	no	Equus_caballus_SCNN1G	3
+alt013_s1	alternative	alt013	1	1	0.00562074	yes	Ailuropoda_melanoleuca_SCNN1G	12
+alt014_s1	alternative	alt014	1	1	0.005736252	yes	Tremarctos_ornatus_SCNN1G	8
+alt015_s1	alternative	alt015	1	1	0.000513778	no	Ursus_maritimus_SCNN1G	18
+alt016_s1	alternative	alt016	1	1	0.010934734	no	Eira_barbara_SCNN1G	6
+alt017_s1	alternative	alt017	1	1	0.007241983	yes	Martes_flavidula_SCNN1G	1
+alt018_s1	alternative	alt018	1	1	0.00657684	yes	Neogale_vison_SCNN1G	14
+alt019_s1	alternative	alt019	1	1	0.005708323	yes	Lontra_canadensis_SCNN1G	7

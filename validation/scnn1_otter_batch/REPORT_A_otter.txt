@@ -1,0 +1,27 @@
+# labelrank report
+engine: relax (HYPHY 2.5.101(MP) for Linux on x86_64 x86 SSE4 SIMD zlib (v1.3.2)); test label 'otter', reference 'back'; alternatives written 19 of 46 found (sampled)
+not launched: 11 run(s) past the sequential stopping point
+
+## observed label (1 seeds; Enhydra_lutris_kenyoni_SCNN1A)
+  observed_s1  LRT 0.7332  P 0.3919  K 1.305  best logL -22287.9241 (alternative)
+  observed LRT 0.7332 (best alternative vs best null fit over 1 seeds), P 0.3919, K 1.305
+  gate: P <= 0.05 -> NOT PASSED (the observed label is not significant here; the ranks below are still computed) (seeds individually: 0 of 1 at P <= 0.05)
+
+## rank among same-shaped labels
+  (a) all alternatives: 5 read (of 19 written; in the drawn order up to the stopping point); LRT >= observed: 3; rank 4 of 6
+  (b) length-matched (test-set length within x2 of 0.00472): 2 alternatives; LRT >= observed: 1; rank 2 of 3
+  primary P: the sequential P below (a rank-based P over a stopped walk would be biased)
+  length: 20% of the alternatives are shorter than the observed test set
+  length vs LRT among the alternatives: Spearman rho 0.10 (n = 5)
+  (ranks among this tree's lineages of the same shape; lineages differ in history and are not independent, so these are calibrations, not exact null distributions)
+  sequential reading (Besag-Clifford, h = 3): stopped after 5 alternatives in the drawn order, 3 at or above the observed LRT; sequential P = 0.6000
+  secondary (directional): alternatives with LRT >= observed and K on the observed side (intens): 3 of 5
+  alternatives significant by the chi-square reading (P <= 0.05): 0 of 5 (0.0%), 0 on the observed side
+  warning (alt012_s1): RELAX refitted after a negative LRT (1 passes); read from relax.json
+
+## per alternative (label, length, length-matched, LRT, P, K, branches), by LRT
+  alt017  0.00507  y  3.738  0.0532  14.520  Neogale_vison_SCNN1A
+  alt003  0.04851  n  2.803  0.0941  1.261  Tamandua_tetradactyla_SCNN1A
+  alt004  0.04234  n  2.368  0.124  1.324  Sus_scrofa_SCNN1A
+  alt005  0.05358  n  0.704  0.401  0.852  Tragulus_javanicus_SCNN1A
+  alt012  0.00295  y  0.000  1  1.008  Tremarctos_ornatus_SCNN1A

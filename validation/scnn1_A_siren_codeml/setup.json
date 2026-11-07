@@ -1,0 +1,50 @@
+{
+ "tool": "labelrank",
+ "engine": "codeml",
+ "alignment": "Source-Data-6/Hyphy_analysis/all_A.fasta",
+ "alignment_sha256": "7275f136dfc2742056a7e0d4480ed4994259757cdae5f87a6b4678ae66b15839",
+ "tree": "tree_A_siren_paml.tre",
+ "tree_sha256": "336bd00d6ac31107842baf7868e424a201a54d0f467849d5bf4a83bab6346392",
+ "test": "#1",
+ "reference": "Unlabeled branches",
+ "orig_label": null,
+ "seeds": [
+  1
+ ],
+ "alt_seeds": [
+  1
+ ],
+ "length_ratio": 2.0,
+ "length_matched_only": false,
+ "max_alternatives": 9,
+ "sample_seed": 1,
+ "alternatives_found": 27,
+ "alternatives_written": 9,
+ "alternatives_before_length_filter": 9,
+ "drawn_at_random": false,
+ "raw_combinations": 27,
+ "sampled": true,
+ "shapes": [
+  [
+   "clade",
+   "(t,t)"
+  ]
+ ],
+ "internal_nodes_named": 88,
+ "observed_length": 0.050709148999999995,
+ "engine_version": "PAML 4.10.10",
+ "relax_bf": null,
+ "relax_bf_sha256": null,
+ "genetic_code": 1,
+ "genetic_code_name": "Universal",
+ "exclude": [],
+ "excluded_reference_branches": 0,
+ "input_warnings": [
+  "4 sequence(s) identical to another (kept; they add no information)",
+  "8 branch(es) have length 0 in the input tree; HyPhy may delete zero-length internal branches, from any set (reference included); deletions are reported per run"
+ ],
+ "sequential_h": null,
+ "alpha": 0.05,
+ "direction": null,
+ "tool_version": "0.3.0"
+}

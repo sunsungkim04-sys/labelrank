@@ -1,0 +1,21 @@
+run	role	label	seed	n_branches	length	length_matched	branches	order
+observed_s1	observed	observed	1	1	0.004716102	yes	Enhydra_lutris_kenyoni_SCNN1A	
+alt001_s1	alternative	alt001	1	1	0.042458067	no	Dasypus_novemcinctus_SCNN1A	9
+alt002_s1	alternative	alt002	1	1	0.008864749	yes	Cabassous_unicinctus_SCNN1A	13
+alt003_s1	alternative	alt003	1	1	0.048513662	no	Tamandua_tetradactyla_SCNN1A	4
+alt004_s1	alternative	alt004	1	1	0.042341508	no	Sus_scrofa_SCNN1A	5
+alt005_s1	alternative	alt005	1	1	0.053580699	no	Tragulus_javanicus_SCNN1A	2
+alt006_s1	alternative	alt006	1	1	0.028373305	no	Antilocapra_americana_SCNN1A	10
+alt007_s1	alternative	alt007	1	1	0.001500508	no	Bos_taurus_SCNN1A	17
+alt008_s1	alternative	alt008	1	1	0.003271214	yes	Ovis_aries_SCNN1A	15
+alt009_s1	alternative	alt009	1	1	0.00737436	yes	Damaliscus_lunatus_SCNN1A	19
+alt010_s1	alternative	alt010	1	1	0.035459809	no	Hippopotamus_amphibius_SCNN1A	11
+alt011_s1	alternative	alt011	1	1	0.009764491	no	Ailuropoda_melanoleuca_SCNN1A	16
+alt012_s1	alternative	alt012	1	1	0.002948506	yes	Tremarctos_ornatus_SCNN1A	3
+alt013_s1	alternative	alt013	1	1	0.001510716	no	Helarctos_malayanus_SCNN1A	12
+alt014_s1	alternative	alt014	1	1	0.001005384	no	Ursus_thibetanus_japonicus_SCNN1A	8
+alt015_s1	alternative	alt015	1	1	0.001005517	no	Ursus_americanus_SCNN1A	18
+alt016_s1	alternative	alt016	1	1	0	no	Ursus_arctos_horribilis_SCNN1A	6
+alt017_s1	alternative	alt017	1	1	0.005066767	yes	Neogale_vison_SCNN1A	1
+alt018_s1	alternative	alt018	1	1	0.00353797	yes	Mustela_erminea_SCNN1A	14
+alt019_s1	alternative	alt019	1	1	0.005849165	yes	Pteronura_brasiliensis_SCNN1A	7

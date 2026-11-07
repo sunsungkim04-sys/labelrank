@@ -1,0 +1,3 @@
+gene	status	gate	observed_LRT	N	rank	rank_based_P	sequential_P	N_length_matched	rank_length_matched	rank_based_P_length_matched	share_alternatives_shorter	chi2_significant_alternatives	excluded_runs	warnings
+A_otter	ok	not passed	0.7332	5	4		0.6000	2	2		0.200	0	0	3
+G_otter	ok	passed	4.7930	19	2		0.1000	7	1		0.263	1	0	6

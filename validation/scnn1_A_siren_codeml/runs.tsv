@@ -1,0 +1,11 @@
+run	role	label	seed	n_branches	length	length_matched	branches	order
+observed_s1	observed	observed	1	3	0.050709149	yes	(Dugong_dugong_SCNN1A+Trichechus_manatus_latirostris_SCNN1A),Dugong_dugong_SCNN1A,Trichechus_manatus_latirostris_SCNN1A	
+alt001_s1	alternative	alt001	1	3	0.119854788	no	(Echinops_telfairi_SCNN1A+Negosale_talazaci_SCNN1A),Echinops_telfairi_SCNN1A,Negosale_talazaci_SCNN1A	8
+alt002_s1	alternative	alt002	1	3	0.091496745	yes	(Heterohyrax_brucei_SCNN1A+Procavia_capensis_SCNN1A),Heterohyrax_brucei_SCNN1A,Procavia_capensis_SCNN1A	3
+alt003_s1	alternative	alt003	1	3	0.036524024	yes	(Elephas_maximus_SCNN1A+Loxodonta_africana_SCNN1A),Elephas_maximus_SCNN1A,Loxodonta_africana_SCNN1A	5
+alt004_s1	alternative	alt004	1	3	0.020005937	no	(Damaliscus_lunatus_SCNN1A+Hippotragus_niger_SCNN1A),Damaliscus_lunatus_SCNN1A,Hippotragus_niger_SCNN1A	6
+alt005_s1	alternative	alt005	1	3	0.038632697	yes	(Mesoplodon_bidens_SCNN1A+Ziphius_cavirostris_SCNN1A),Mesoplodon_bidens_SCNN1A,Ziphius_cavirostris_SCNN1A	9
+alt006_s1	alternative	alt006	1	3	0.002515995	no	(Lagenorhynchus_obliquidens_SCNN1A+Tursiops_truncatus_SCNN1A),Lagenorhynchus_obliquidens_SCNN1A,Tursiops_truncatus_SCNN1A	2
+alt007_s1	alternative	alt007	1	3	0.027709564	yes	(Inia_geoffrensis_SCNN1A+Pontoporia_blainvillei_SCNN1A),Inia_geoffrensis_SCNN1A,Pontoporia_blainvillei_SCNN1A	1
+alt008_s1	alternative	alt008	1	3	0.004529649	no	(Mirounga_angustirostris_SCNN1A+Mirounga_leonina_SCNN1A),Mirounga_angustirostris_SCNN1A,Mirounga_leonina_SCNN1A	7
+alt009_s1	alternative	alt009	1	3	0.010616924	no	(Mustela_nivalis_SCNN1A+Mustela_putorius_furo_SCNN1A),Mustela_nivalis_SCNN1A,Mustela_putorius_furo_SCNN1A	4

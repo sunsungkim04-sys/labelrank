@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="241pt" height="92pt" viewBox="0 0 241 92" font-family="Arial, Helvetica, sans-serif" font-size="7.5">
+<rect width="100%" height="100%" fill="white"/>
+<line x1="14" y1="64" x2="233" y2="64" stroke="black" stroke-width="0.6"/>
+<line x1="14.00" y1="64" x2="14.00" y2="66.5" stroke="black" stroke-width="0.6"/>
+<text x="14.00" y="74" text-anchor="middle">0</text>
+<line x1="96.66" y1="64" x2="96.66" y2="66.5" stroke="black" stroke-width="0.6"/>
+<text x="96.66" y="74" text-anchor="middle">5</text>
+<line x1="179.33" y1="64" x2="179.33" y2="66.5" stroke="black" stroke-width="0.6"/>
+<text x="179.33" y="74" text-anchor="middle">10</text>
+<text x="123.5" y="89" text-anchor="middle">LRT</text>
+<line x1="77.51" y1="12" x2="77.51" y2="64" stroke="#0072B2" stroke-width="0.6" stroke-dasharray="2,1.5"/>
+<text x="77.51" y="10.5" text-anchor="middle" fill="#0072B2" font-size="6.5">P = 0.05</text>
+<circle cx="14.00" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="14.00" cy="55.20" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="14.74" cy="50.40" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="15.47" cy="45.60" r="2.2" fill="#7f7f7f"/>
+<circle cx="17.08" cy="40.80" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="21.12" cy="60.00" r="2.2" fill="#7f7f7f"/>
+<circle cx="21.99" cy="55.20" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="29.56" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="32.40" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="37.21" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="37.58" cy="55.20" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="40.89" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="52.29" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="65.97" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="68.92" cy="60.00" r="2.2" fill="#7f7f7f"/>
+<circle cx="71.89" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<circle cx="138.71" cy="60.00" r="2.2" fill="#7f7f7f"/>
+<circle cx="211.29" cy="60.00" r="2.2" fill="#7f7f7f"/>
+<circle cx="216.78" cy="60.00" r="1.85" fill="white" stroke="#7f7f7f" stroke-width="0.7"/>
+<line x1="72.30" y1="21.5" x2="72.30" y2="64" stroke="#D55E00" stroke-width="1.2"/>
+<text x="73.80" y="19.5" text-anchor="start" fill="#D55E00">observed</text>
+</svg>

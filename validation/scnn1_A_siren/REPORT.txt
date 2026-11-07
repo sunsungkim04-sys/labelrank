@@ -1,0 +1,40 @@
+# labelrank report
+engine: relax (HYPHY 2.5.101(MP) for Linux on x86_64 x86 SSE4 SIMD zlib (v1.3.2)); test label 'siren', reference 'back'; alternatives written 12 of 12 found
+
+## observed label (3 seeds; (Dugong_dugong_SCNN1A+Trichechus_manatus_latirostris_SCNN1A),Dugong_dugong_SCNN1A,Trichechus_manatus_latirostris_SCNN1A)
+  observed_s1  LRT 7.2126  P 0.007239  K 0.6459  best logL -22287.1900 (alternative)
+  observed_s2  LRT 7.0818  P 0.007787  K 0.6345  best logL -22287.2700 (alternative)
+  observed_s3  LRT 7.2261  P 0.007185  K 0.6428  best logL -22287.1658 (alternative)
+  logL spread across seeds: alternative 0.1042, null 0.0321
+  observed LRT 7.2261 (best alternative vs best null fit over 3 seeds), P 0.007185, K 0.6428
+  gate: P <= 0.05 -> PASSED (seeds individually: 3 of 3 at P <= 0.05)
+
+## rank among same-shaped labels
+  (a) all alternatives: 12 read (of 12 written); LRT >= observed: 0; rank 1 of 13
+  (b) length-matched (test-set length within x2 of 0.05071): 2 alternatives; LRT >= observed: 0; rank 1 of 3
+  a reading with N + 1 < 20 gives its rank only; no P value is claimed for it
+  length: 92% of the alternatives are shorter than the observed test set - the observed label is longer than most; short lineages give small LRTs whatever their biology, so reading (a) favours it; weigh reading (b)
+  length vs LRT among the alternatives: Spearman rho 0.15 (n = 12)
+  (ranks among this tree's lineages of the same shape; lineages differ in history and are not independent, so these are calibrations, not exact null distributions)
+  secondary (directional): alternatives with LRT >= observed and K on the observed side (relax): 0 of 12
+  alternatives significant by the chi-square reading (P <= 0.05): 0 of 12 (0.0%), 0 on the observed side
+  warning: 6 alternative(s) with logL spread above 0.50 across seeds: alt001 0.950, alt002 1.050, alt003 0.852, alt004 0.961, alt006 1.550, alt009 0.716
+  warning (alt010_s1): RELAX refitted after a negative LRT (1 passes); read from relax.json
+  warning (alt005_s2): RELAX refitted after a negative LRT (1 passes); read from relax.json
+  warning (alt008_s3): RELAX refitted after a negative LRT (1 passes); read from relax.json
+  warning (alt009_s2): RELAX refitted after a negative LRT (4 passes); read from relax.json
+  warning (alt012_s2): RELAX refitted after a negative LRT (1 passes); read from relax.json
+
+## per alternative (label, length, length-matched, LRT, P, K, branches), by LRT
+  alt001  0.03719  y  1.018  0.313  1.386  (Cabassous_unicinctus_SCNN1A+Tolypeutes_matacus_SCNN1A),Cabassous_unicinctus_SCNN1A,Tolypeutes_matacus_SCNN1A
+  alt004  0.01003  n  0.845  0.358  0.359  (Bos_grunniens_SCNN1A+Bos_taurus_SCNN1A),Bos_grunniens_SCNN1A,Bos_taurus_SCNN1A
+  alt006  0.02001  n  0.740  0.39  6.595  (Damaliscus_lunatus_SCNN1A+Hippotragus_niger_SCNN1A),Damaliscus_lunatus_SCNN1A,Hippotragus_niger_SCNN1A
+  alt003  0.01893  n  0.652  0.419  0.579  (Giraffa_camelopardalis_SCNN1A+Giraffa_tippelskirchi_SCNN1A),Giraffa_camelopardalis_SCNN1A,Giraffa_tippelskirchi_SCNN1A
+  alt011  0.01062  n  0.647  0.421  1.254  (Mustela_nivalis_SCNN1A+Mustela_putorius_furo_SCNN1A),Mustela_nivalis_SCNN1A,Mustela_putorius_furo_SCNN1A
+  alt007  0.02040  n  0.307  0.579  1.206  (Moschus_berezovskii_SCNN1A+Moschus_moschiferus_SCNN1A),Moschus_berezovskii_SCNN1A,Moschus_moschiferus_SCNN1A
+  alt002  0.10199  n  0.176  0.675  0.881  (Choloepus_didactylus_SCNN1A+Tamandua_tetradactyla_SCNN1A),Choloepus_didactylus_SCNN1A,Tamandua_tetradactyla_SCNN1A
+  alt010  0.00101  n  0.026  0.873  0.436  (Ursus_arctos_horribilis_SCNN1A+Ursus_maritimus_SCNN1A),Ursus_arctos_horribilis_SCNN1A,Ursus_maritimus_SCNN1A
+  alt005  0.01402  n  0.000  1  0.955  (Ovis_aries_SCNN1A+Ovis_canadensis_SCNN1A),Ovis_aries_SCNN1A,Ovis_canadensis_SCNN1A
+  alt008  0.03730  y  0.000  1  0.979  (Capreolus_pygargus_SCNN1A+Cervus_elaphus_SCNN1A),Capreolus_pygargus_SCNN1A,Cervus_elaphus_SCNN1A
+  alt009  0.00447  n  0.000  1  0.985  (Helarctos_malayanus_SCNN1A+Ursus_thibetanus_japonicus_SCNN1A),Helarctos_malayanus_SCNN1A,Ursus_thibetanus_japonicus_SCNN1A
+  alt012  0.01191  n  0.000  1  1.008  (Gulo_gulo_luscus_SCNN1A+Martes_flavidula_SCNN1A),Gulo_gulo_luscus_SCNN1A,Martes_flavidula_SCNN1A

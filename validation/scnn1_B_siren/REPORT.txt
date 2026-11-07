@@ -1,0 +1,49 @@
+# labelrank report
+engine: relax (HYPHY 2.5.101(MP) for Linux on x86_64 x86 SSE4 SIMD zlib (v1.3.2)); test label 'siren', reference 'back'; alternatives written 19 of 46 found (sampled)
+
+## observed label (2 seeds; Dugong_dugong_SCNN1B)
+  observed_s1  LRT 2.4557  P 0.1171  K 0.7392  best logL -20355.8991 (alternative)
+    note: 1 reference branch(es) deleted as zero-length (names as in the run's tree.nwk): LRn68
+  observed_s2  LRT 3.6095  P 0.05745  K 0.7216  best logL -20355.3637 (alternative)
+    note: 1 reference branch(es) deleted as zero-length (names as in the run's tree.nwk): LRn68
+  logL spread across seeds: alternative 0.5354, null 0.0415 - ABOVE TOLERANCE 0.50: the optimizer may not have converged; add seeds
+  observed LRT 3.5265 (best alternative vs best null fit over 2 seeds), P 0.06039, K 0.7216
+  gate: P <= 0.05 -> NOT PASSED (the observed label is not significant here; the ranks below are still computed) (seeds individually: 0 of 2 at P <= 0.05)
+
+## rank among same-shaped labels
+  (a) all alternatives: 19 read (of 19 written); LRT >= observed: 3; rank 4 of 20; rank-based P = 4/20 = 0.2000
+  (b) length-matched (test-set length within x2 of 0.03671): 5 alternatives; LRT >= observed: 2; rank 3 of 6
+  a reading with N + 1 < 20 gives its rank only; no P value is claimed for it
+  length: 89% of the alternatives are shorter than the observed test set - the observed label is longer than most; short lineages give small LRTs whatever their biology, so reading (a) favours it; weigh reading (b)
+  length vs LRT among the alternatives: Spearman rho 0.21 (n = 19)
+  (ranks among this tree's lineages of the same shape; lineages differ in history and are not independent, so these are calibrations, not exact null distributions)
+  secondary (directional): alternatives with LRT >= observed and K on the observed side (relax): 0 of 19
+  alternatives significant by the chi-square reading (P <= 0.05): 3 of 19 (15.8%), 0 on the observed side
+  warning: 1 label(s) whose best alternative fit is below the best null fit (not converged; read as LRT 0, add seeds): alt019 LRT -0.041
+  warning: 7 alternative(s) with logL spread above 0.50 across seeds: alt003 3.816, alt005 0.572, alt006 1.517, alt008 4.964, alt009 2.292, alt011 0.920, alt018 0.557
+  warning (alt006_s2): K at its upper bound (50)
+  warning (alt015_s1): RELAX refitted after a negative LRT (1 passes); read from relax.json
+  warning (alt017_s2): RELAX refitted after a negative LRT (1 passes); read from relax.json
+  warning (alt019_s2): RELAX refitted after a negative LRT (6 passes); read from relax.json
+  warning (alt019_s2): alternative logL below null logL by 0.0203: the optimizer did not converge
+
+## per alternative (label, length, length-matched, LRT, P, K, branches), by LRT
+  alt008  0.00935  n  12.265  0.000461  17.598  Bubalus_bubalis_SCNN1B
+  alt003  0.02943  y  11.933  0.000551  5.447  Tamandua_tetradactyla_SCNN1B
+  alt009  0.01854  y  7.543  0.00602  8.981  Nanger_granti_SCNN1B
+  alt006  0.00182  n  3.502  0.0613  50.000  Tragulus_kanchil_SCNN1B
+  alt004  0.06186  y  3.322  0.0684  0.648  Sus_scrofa_SCNN1B
+  alt014  0.00253  n  3.144  0.0762  24.725  Mustela_nivalis_SCNN1B
+  alt011  0.01361  n  2.316  0.128  8.282  Meles_meles_SCNN1B
+  alt013  0.00358  n  1.627  0.202  8.994  Mustela_erminea_SCNN1B
+  alt018  0.01816  n  1.426  0.232  2.164  Taxidea_taxus_SCNN1B
+  alt005  0.00338  n  1.404  0.236  6.771  Tragulus_javanicus_SCNN1B
+  alt007  0.00788  n  1.113  0.291  4.587  Cervus_elaphus_SCNN1B
+  alt002  0.00873  n  0.941  0.332  1.282  Cabassous_unicinctus_SCNN1B
+  alt012  0.00574  n  0.483  0.487  4.149  Neogale_vison_SCNN1B
+  alt001  0.02498  y  0.431  0.512  0.855  Dasypus_novemcinctus_SCNN1B
+  alt017  0.00705  n  0.186  0.666  1.508  Martes_flavidula_SCNN1B
+  alt010  0.03835  y  0.089  0.765  1.174  Hippopotamus_amphibius_SCNN1B
+  alt015  0.00110  n  0.045  0.832  0.354  Mustela_putorius_furo_SCNN1B
+  alt016  0.01046  n  0.000  1  0.948  Pteronura_brasiliensis_SCNN1B
+  alt019  0.00261  n  0.000  1  1.000  Tremarctos_ornatus_SCNN1B

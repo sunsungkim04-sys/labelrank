@@ -1,0 +1,53 @@
+{
+ "tool": "labelrank",
+ "engine": "relax",
+ "alignment": "Source-Data-6/Hyphy_analysis/all_A.fasta",
+ "alignment_sha256": "7275f136dfc2742056a7e0d4480ed4994259757cdae5f87a6b4678ae66b15839",
+ "tree": "Source-Data-6/Hyphy_analysis/tree_A_z.tre",
+ "tree_sha256": "0bb68a7b3c3dc1288c2a86e180201865fc9a80e456d486eac64fb5bab6a93576",
+ "test": "siren",
+ "reference": "back",
+ "orig_label": "orig",
+ "seeds": [
+  1,
+  2,
+  3
+ ],
+ "alt_seeds": [
+  1,
+  2,
+  3
+ ],
+ "length_ratio": 2.0,
+ "length_matched_only": false,
+ "max_alternatives": 200,
+ "sample_seed": 1,
+ "alternatives_found": 12,
+ "alternatives_written": 12,
+ "sampled": false,
+ "shapes": [
+  [
+   "clade",
+   "(t,t)"
+  ]
+ ],
+ "internal_nodes_named": 88,
+ "observed_length": 0.050709148999999995,
+ "engine_version": "HYPHY 2.5.101(MP) for Linux on x86_64 x86 SSE4 SIMD zlib (v1.3.2)",
+ "relax_bf": "<hyphy 2.5.101 prefix>/share/hyphy/TemplateBatchFiles/SelectionAnalyses/RELAX.bf",
+ "relax_bf_sha256": "56df261b6dc8f0b704672a79c306ffb9203ecb5ec2f1a727e96128c8b3a905c3",
+ "input_warnings": [
+  "4 sequence(s) identical to another (kept; they add no information)",
+  "8 branch(es) have length 0 in the input tree; HyPhy may delete zero-length internal branches, from any set (reference included); deletions are reported per run"
+ ],
+ "seed_additions": [
+  {
+   "seeds": [
+    2,
+    3
+   ],
+   "which": "alternatives"
+  }
+ ],
+ "path_note": "local paths replaced by their location in the Zenodo deposit; sha256 values identify the files"
+}

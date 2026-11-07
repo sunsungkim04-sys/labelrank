@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "labelrank"
+version = "0.5.0"
+description = "Rank a trait-labelled RELAX or codeml branch-site test among same-shaped labels on the same tree"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [{name = "MinSeo Kim"}]
+dependencies = []
+
+keywords = ["molecular evolution", "relaxed selection", "RELAX", "branch-site test", "codeml", "phylogenetics"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.urls]
+Repository = "https://github.com/sunsungkim04-sys/labelrank"
+
+[project.scripts]
+labelrank = "labelrank.cli:main"
+
+[tool.setuptools]
+packages = ["labelrank"]
