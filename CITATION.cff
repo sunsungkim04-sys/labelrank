@@ -22,5 +22,10 @@ authors:
     given-names: MinSeo
     orcid: "https://orcid.org/0009-0003-7085-5573"
     affiliation: "Department of Applied Biosciences, Kyungpook National University"
+doi: "10.5281/zenodo.24035696"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24035697"
+    description: "labelrank 0.5.0"
 repository-code: "https://github.com/sunsungkim04-sys/labelrank"
 license: MIT
