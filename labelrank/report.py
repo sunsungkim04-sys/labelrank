@@ -150,10 +150,11 @@ def build(out):
     return meta, rows, labels, excluded
 
 
-def pvalue_fn(engine):
+def pvalue_fn(engine, model=None):
     from .hyphy_relax import chi2_1_sf
-    if engine == "relax":
-        return chi2_1_sf
+    if engine == "relax" or model == "two-ratio":
+        # RELAX, and codeml two-ratio (nested at the interior point omega_fg = omega_bg): chi-square(1)
+        return lambda x: chi2_1_sf(x) if x > 0 else 1.0
     # branch-site model A: 50:50 mixture of a point mass at 0 and chi-square(1)
     return lambda x: 0.5 * chi2_1_sf(x) if x > 0 else 1.0
 
@@ -173,7 +174,7 @@ def observed_statistic(meta, rows, labels, alpha=0.05, direction=None):
     if not g["evaluable"]:
         return g
     ob = labels["observed"]
-    pval = pvalue_fn(engine)
+    pval = pvalue_fn(engine, meta.get("codeml_model"))
     side = _side(ob["k"]) if engine == "relax" else None
     gate = pval(ob["lrt"]) <= alpha and (not direction or side == direction)
     seed_pass = [r for r in obs_ok if r["res"]["p"] <= alpha]
@@ -263,7 +264,7 @@ def summarize(out, alpha=None, direction=None, logl_tolerance=0.5):
     direction = direction if direction is not None else meta.get("direction")
     direction = None if direction == "none" or meta["engine"] != "relax" else direction
     engine = meta["engine"]
-    pval = pvalue_fn(engine)
+    pval = pvalue_fn(engine, meta.get("codeml_model"))
     S = {"meta": meta, "rows": rows, "labels": labels, "excluded": excluded, "alpha": alpha,
          "direction": direction, "logl_tolerance": logl_tolerance, "pval": pval}
     g = observed_statistic(meta, rows, labels, alpha, direction)
@@ -328,7 +329,8 @@ def report(out, alpha=None, direction=None, logl_tolerance=0.5, S=None):
     p = L.append
     p("# labelrank report")
     p("engine: %s (%s); test label %r, %s; alternatives written %d of %s%s" % (
-        engine, S.get("engine_version_read") or meta["engine_version"], meta["test"],
+        engine + (" " + meta["codeml_model"] if meta.get("codeml_model") else ""),
+        S.get("engine_version_read") or meta["engine_version"], meta["test"],
         "reference %r" % meta["reference"] if engine == "relax" else "background = every unmarked branch",
         meta["alternatives_written"], "%d found" % meta["alternatives_found"] if meta["alternatives_found"] is not None
         else "an unknown number (drawn at random)", " (sampled)" if meta["sampled"] else ""))
@@ -462,7 +464,8 @@ def report(out, alpha=None, direction=None, logl_tolerance=0.5, S=None):
         p("  warning (%s): %s" % (run, w))
     p("")
     p("## per alternative (label, length, length-matched, LRT, P, %s, branches), by LRT" % (
-        "K" if engine == "relax" else "foreground omega2"))
+        "K" if engine == "relax" else
+        "foreground omega" if meta.get("codeml_model") == "two-ratio" else "foreground omega2"))
     for k, v in sorted(alts, key=lambda kv: -kv[1]["lrt"]):
         p("  %s  %.5f  %s  %.3f  %.3g  %s  %s" % (k, v["length"], "y" if v["length_matched"] else "n",
                                                   v["lrt"], pval(v["lrt"]),

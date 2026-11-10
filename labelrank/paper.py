@@ -31,7 +31,10 @@ def _short_version(v):
 def methods(S):
     m = S["meta"]
     relax = m["engine"] == "relax"
-    eng = "HyPhy RELAX" if relax else "codeml branch-site test (model A against its omega2 = 1 null; PAML)"
+    two = m.get("codeml_model") == "two-ratio"
+    eng = ("HyPhy RELAX" if relax else
+           "codeml two-ratio branch model (model = 2 against the one-ratio model = 0, NSsites = 0; PAML)" if two else
+           "codeml branch-site test (model A against its omega2 = 1 null; PAML)")
     if m.get("drawn_at_random"):
         which = "%d sets drawn at random (sampling seed %d) from the possible sets" % (
             m["alternatives_before_length_filter"], m["sample_seed"])
@@ -77,11 +80,13 @@ def methods(S):
         txt.append(
             "Every label was analysed with the same codeml settings (%s; CodonFreq = 2, cleandata = 0, each fit in its "
             "own folder) from the starting (omega, kappa) values %s%s. For each label, each model was taken at its "
-            "highest log-likelihood over the starts, LRT = 2(logL alternative - logL null), and P from the 50:50 "
-            "mixture of 0 and chi-square(1) (the boundary null; the plain chi-square(1) is the conservative "
-            "alternative)." % (S.get("engine_version_read") or "PAML", starts,
-                               "" if same else " (starts %s for the observed label and %s for the alternatives)" % (
-                                   ", ".join(map(str, m["seeds"])), ", ".join(map(str, m["alt_seeds"])))))
+            "highest log-likelihood over the starts, LRT = 2(logL alternative - logL null), and P from %s." % (
+                S.get("engine_version_read") or "PAML", starts,
+                "" if same else " (starts %s for the observed label and %s for the alternatives)" % (
+                    ", ".join(map(str, m["seeds"])), ", ".join(map(str, m["alt_seeds"]))),
+                "chi-square(1) (the two models are nested at the interior point omega foreground = omega background)"
+                if two else "the 50:50 mixture of 0 and chi-square(1) (the boundary null; the plain chi-square(1) is "
+                "the conservative alternative)"))
     if relax:
         txt.append("Runs whose branch sets, as printed by HyPhy, differed by name from those written, and runs that "
                    "failed, were excluded.")
@@ -162,13 +167,17 @@ def results(S):
     return s
 
 
+def _plain_chi2(meta):
+    return meta["engine"] == "relax" or meta.get("codeml_model") == "two-ratio"
+
+
 def caption(S):
-    crit = "3.84" if S["meta"]["engine"] == "relax" else "2.71"
+    crit = "3.84" if _plain_chi2(S["meta"]) else "2.71"
     return ("Likelihood-ratio statistic of the observed trait label (vermillion) and of every same-shaped "
             "alternative label read on the same tree (N = %d; filled: total branch length within a factor of %g of the "
             "observed test set's, open: outside it). Dashed line: LRT = %s, P = 0.05 by the %s reading." % (
                 S.get("N", 0), S["meta"]["length_ratio"], crit,
-                "chi-square(1)" if S["meta"]["engine"] == "relax" else "50:50 mixture"))
+                "chi-square(1)" if _plain_chi2(S["meta"]) else "50:50 mixture"))
 
 
 def figure_svg(S):
@@ -179,7 +188,7 @@ def figure_svg(S):
     altv = [(v["lrt"], v["length_matched"]) for _, v in S.get("alts", [])]
     alts = [x for x, _ in altv]
     lobs = S.get("lobs")
-    crit = 3.841458820694124 if S["meta"]["engine"] == "relax" else 2.705543454095404
+    crit = 3.841458820694124 if _plain_chi2(S["meta"]) else 2.705543454095404
     vals = alts + ([lobs] if lobs is not None else []) + [crit]
     xmax = max(vals) * 1.08 if vals else 1.0
     xmax = max(xmax, 1.0)

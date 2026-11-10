@@ -2,7 +2,8 @@
 
 Rank a trait-labelled branch-selection test among every same-shaped label on the same tree.
 
-A branch-specific selection test (HyPhy RELAX, or PAML codeml branch-site model A) run on a trait label is
+A branch-specific selection test (HyPhy RELAX, or PAML codeml branch-site model A or the two-ratio branch model)
+run on a trait label is
 usually read against its chi-square reference: P <= 0.05 and the trait lineage is said to be under relaxed,
 intensified or positive selection. On real trees, other lineages that share nothing with the trait often give
 "significant" results too. A chi-square P alone cannot separate a trait-linked signal from that background.
@@ -125,12 +126,27 @@ labelrank check --engine codeml --alignment aln.fasta --tree marked.nwk --test '
 labelrank setup --engine codeml --alignment aln.fasta --tree marked.nwk --test '#1' --out lr_cm --codeml /path/to/codeml
 ```
 
-The report's K column then holds the foreground omega2 of model A. Each run folder
-holds `alt/` (model = 2, NSsites = 2) and `null/` (the same with fix_omega = 1, omega = 1), each in its own working
-folder (codeml writes fixed-name scratch files), with CodonFreq = 2 and cleandata = 0. codeml has no random seed: a
-seed number picks one of six starting (omega, kappa) pairs, (0.5, 2), (1.5, 1), (3, 4), (0.2, 0.5), (5, 2),
-(0.8, 8). P uses the 50:50 mixture of 0 and chi-square(1) for the boundary null; the plain chi-square(1) is the
-conservative choice the PAML documentation also mentions. codeml 4.10.10 exits with status 1 after a complete run,
+`--model` picks the codeml model at setup (default `branch-site`); later commands read it from the setup:
+
+| `--model` | alternative (`alt/`) | null (`null/`) | P | report's K column |
+|---|---|---|---|---|
+| `branch-site` | model A: model = 2, NSsites = 2 | the same with fix_omega = 1, omega = 1 | 50:50 mixture of 0 and chi-square(1) | foreground omega2 |
+| `two-ratio` | model = 2, NSsites = 0: the `#1` branches get their own omega | model = 0, NSsites = 0: one omega | chi-square(1) | foreground omega |
+
+```bash
+labelrank setup --engine codeml --model two-ratio --alignment aln.fasta --tree marked.nwk --test '#1' --out lr_tr --codeml /path/to/codeml
+```
+
+Each fit runs in its own working folder (codeml writes fixed-name scratch files), with CodonFreq = 2 (F3x4),
+cleandata = 0 and an estimated kappa. codeml has no random seed: a seed number picks one of six starting
+(omega, kappa) pairs, (0.5, 2), (1.5, 1), (3, 4), (0.2, 0.5), (5, 2), (0.8, 8). The branch-site null fixes
+omega2 at 1, so only kappa takes the start there; the one-ratio null has a free omega and takes both.
+
+The branch-site null lies on the boundary of model A, so P uses the 50:50 mixture of 0 and chi-square(1); the
+plain chi-square(1) is the conservative choice the PAML documentation also mentions. The two-ratio and one-ratio
+models are nested at the interior point omega foreground = omega background, so P is chi-square(1). The two-ratio
+test is two-sided: a foreground omega below the background one gives as large an LRT as one above it, and the
+rank counts both. Read the K column for the direction. codeml 4.10.10 exits with status 1 after a complete run,
 so a run counts as finished when both `mlc` files hold their likelihood line. codeml does not stop at a stop
 codon: it turns that column into missing data and carries on, so the stop-codon check before setup matters
 here too.
@@ -340,7 +356,7 @@ lock is replaced; one older than 30 seconds is cleared automatically.
 
 - One test set per run, with tip, whole-clade and single-stem groups. A partly labelled clade is refused.
 - RELAX with two branch sets (test, reference); other labelled branches are nuisance. codeml: branch-site model A
-  only, one foreground mark.
+  or the two-ratio branch model, one foreground mark (`#1`); no `--direction` for codeml.
 - Genetic codes: NCBI tables 1-6 and 9-15 (codeml: not 14).
 - Checked against HyPhy 2.5.101 (RELAX.bf 4.7) and codeml 4.10.10 only; other releases are flagged.
 - The rank is a calibration against this tree's other lineages (see "What the report says"). Few alternatives
@@ -361,7 +377,8 @@ in tests for adaptive convergence (Zou and Zhang 2015, Mol Biol Evol; Thomas and
 2019, Bioinformatics; Saputra et al. 2021, Mol Biol Evol). Permulations randomise the trait over
 species while keeping its phylogenetic structure, for a rate-correlation statistic across many genes;
 `labelrank` instead moves one label to every same-shaped place on the tree and reruns the branch-specific test
-itself (RELAX, Wertheim et al. 2015, Mol Biol Evol; branch-site model A, Zhang et al. 2005, Mol Biol Evol). Branch-site tests can return false positives on lineages with no positive selection, for example
+itself (RELAX, Wertheim et al. 2015, Mol Biol Evol; branch-site model A, Zhang et al. 2005, Mol Biol Evol;
+two-ratio branch model, Yang 1998, Mol Biol Evol). Branch-site tests can return false positives on lineages with no positive selection, for example
 through multinucleotide mutations (Venkat et al. 2018, Nat Ecol Evol). Sequential stopping
 follows Besag and Clifford (1991, Biometrika).
 

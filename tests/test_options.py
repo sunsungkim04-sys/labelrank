@@ -368,6 +368,49 @@ class Refusals(_Fixture):
             self.assertEqual(rc, 2, (test, seeds))
             self.assertFalse(os.path.exists(out))
 
+    def test_codeml_two_ratio_control_files_and_add_seeds(self):
+        tree = os.path.join(self.tmp, "m.nwk")
+        with open(tree, "w") as fh:
+            fh.write(_caterpillar(self.names, "T12").replace("{FG}", " #1"))
+        out = os.path.join(self.tmp, "tr")
+        rc, txt = self.cli("setup", "--engine", "codeml", "--model", "two-ratio", "--alignment", self.aln, "--tree",
+                           tree, "--test", "#1", "--out", out, "--codeml", os.path.join(self.tmp, "no-codeml"),
+                           "--seeds", "1")
+        self.assertEqual(rc, 0, txt)
+        self.assertIn("engine codeml two-ratio", txt)
+        with open(os.path.join(out, "setup.json")) as fh:
+            self.assertEqual(json.load(fh)["codeml_model"], "two-ratio")
+        self.cli("add-seeds", out, "--seeds", "2", "--which", "all")
+
+        def ctl(run, sub):
+            with open(os.path.join(out, "runs", run, sub, "codeml.ctl")) as fh:
+                return dict(l.split(" = ") for l in (x.strip() for x in fh) if " = " in l)
+        for run, om, ka in (("observed_s1", "0.5", "2.0"), ("observed_s2", "1.5", "1.0"), ("alt001_s2", "1.5", "1.0")):
+            a, n = ctl(run, "alt"), ctl(run, "null")
+            self.assertEqual((a["model"], a["NSsites"], a["fix_omega"], a["omega"], a["kappa"]),
+                             ("2", "0", "0", om, ka), run)
+            # the one-ratio null has a free omega, so it starts from the seed's omega too
+            self.assertEqual((n["model"], n["NSsites"], n["fix_omega"], n["omega"], n["kappa"]),
+                             ("0", "0", "0", om, ka), run)
+            self.assertEqual((a["CodonFreq"], a["cleandata"]), ("2", "0"))
+        # branch-site stays as it was: null fixes omega2 at 1, and add-seeds leaves that 1 alone
+        out = os.path.join(self.tmp, "bs")
+        rc, txt = self.cli("setup", "--engine", "codeml", "--alignment", self.aln, "--tree", tree, "--test", "#1",
+                           "--out", out, "--codeml", os.path.join(self.tmp, "no-codeml"), "--seeds", "1")
+        self.assertEqual(rc, 0, txt)
+        self.cli("add-seeds", out, "--seeds", "3", "--which", "all")
+        n = ctl("observed_s3", "null")
+        self.assertEqual((n["model"], n["NSsites"], n["fix_omega"], n["omega"]), ("2", "2", "1", "1.0"))
+        with open(os.path.join(out, "setup.json")) as fh:
+            self.assertEqual(json.load(fh)["codeml_model"], "branch-site")
+
+    def test_model_is_refused_for_relax(self):
+        out = os.path.join(self.tmp, "o")
+        rc, txt = self.cli("setup", "--alignment", self.aln, "--tree", self.tree, "--test", "FG", "--out", out,
+                           "--hyphy", self.hy, "--model", "two-ratio")
+        self.assertEqual(rc, 2, txt)   # the message goes to stderr: "--model chooses the codeml model ..."
+        self.assertFalse(os.path.exists(out))
+
     def test_bare_program_name_beside_a_folder_of_that_name(self):
         bindir = os.path.join(self.tmp, "bin")
         os.makedirs(bindir)

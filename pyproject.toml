@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "labelrank"
-version = "0.5.0"
+version = "0.6.0"
 description = "Rank a trait-labelled RELAX or codeml branch-site test among same-shaped labels on the same tree"
 readme = "README.md"
 requires-python = ">=3.8"

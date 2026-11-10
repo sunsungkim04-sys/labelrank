@@ -130,14 +130,21 @@ def make_out(tmp, obs_lrts, alt_lrts, n_seeds=3, alt_lengths=None, tweak=None, r
     return out
 
 
-def _fake_codeml(out, obs, alts):
+def _fake_codeml(out, obs, alts, two_ratio=False):
     runs = ["observed_s%d" % (i + 1) for i in range(len(obs))] + ["alt%03d_s1" % (i + 1) for i in range(len(alts))]
     for run, lrt in zip(runs, list(obs) + list(alts)):
         for sub, ll, npar in (("alt", -1000.0 + lrt / 2, 16), ("null", -1000.0, 15)):
             d = os.path.join(out, "runs", run, sub)
             os.makedirs(d)
             with open(os.path.join(d, "mlc"), "w") as fh:
-                fh.write("lnL(ntime: 12  np: %d):  %.6f   +0.000000\n" % (npar, ll))
+                # the lnL line as PAML 4.10.10 prints it once np reaches 100 (no space after 'np:')
+                fh.write("lnL(ntime: 12  np:%d):  %.6f   +0.000000\n" % (npar, ll))
+                if two_ratio:
+                    fh.write("w (dN/dS) for branches:  0.12000 0.25000\n" if sub == "alt"
+                             else "omega (dN/dS) =  0.14000\n")
+            if two_ratio:
+                with open(os.path.join(d, "codeml.ctl"), "w") as fh:
+                    fh.write("        model = %d\n      NSsites = 0\n" % (2 if sub == "alt" else 0))
         with open(os.path.join(out, "runs", run, "expected_sets.json"), "w") as fh:
             json.dump({"Test": T, "Reference": REF, "nuisance": NUI}, fh)
         with open(os.path.join(out, "runs", run, "DONE"), "w") as fh:
@@ -240,6 +247,26 @@ class TestReport(unittest.TestCase):
         _fake_codeml(out, [7.0, 7.0, 7.0], [3.0])
         txt = R.report(out)
         self.assertIn("significant by the chi-square reading (P <= 0.05): 1 of 1", txt)
+
+    def test_codeml_two_ratio_uses_plain_chi_square(self):
+        out = make_out(self.tmp, [7.0, 7.0, 7.0], [3.0], engine="codeml")
+        os.rename(os.path.join(out, "runs"), os.path.join(out, "runs_relax"))
+        _fake_codeml(out, [7.0, 7.0, 7.0], [3.0], two_ratio=True)
+        with open(os.path.join(out, "setup.json")) as fh:
+            m = json.load(fh)
+        m["codeml_model"] = "two-ratio"
+        with open(os.path.join(out, "setup.json"), "w") as fh:
+            json.dump(m, fh)
+        txt = R.report(out)
+        # chi-square(1) P of LRT 3.0 is 0.083: not significant (the mixture would have called it 0.042)
+        self.assertIn("significant by the chi-square reading (P <= 0.05): 0 of 1", txt)
+        self.assertIn("engine: codeml two-ratio", txt)
+        self.assertIn("foreground omega,", txt)
+        self.assertIn("  alt001  0.05000  y  3.000  0.0833  0.250  x", txt)
+        from labelrank import codeml as C
+        r = C.read_run_dir(os.path.join(out, "runs", "alt001_s1"))
+        self.assertEqual((r["model"], r["K"]), ("two-ratio", 0.25))
+        self.assertAlmostEqual(r["p"], 0.0832645166635504, places=9)
 
     def test_deleted_test_branch_excludes_deleted_reference_is_noted(self):
         out = make_out(self.tmp, [7.0, 7.0, 7.0], [1.0],

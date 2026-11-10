@@ -1,4 +1,12 @@
-"""PAML codeml branch-site model A (alternative) against its omega2 = 1 null.
+"""PAML codeml: branch-site model A against its omega2 = 1 null, or the two-ratio branch model against one ratio.
+
+Two models (MODELS):
+  branch-site  alt model = 2, NSsites = 2; null the same with omega2 fixed at 1. The null sits on the boundary of
+               the alternative, so P is the 50:50 mixture of 0 and chi-square(1). One-sided by construction.
+  two-ratio    alt model = 2, NSsites = 0 (the #1 branches get their own omega); null model = 0, NSsites = 0
+               (one omega for the whole tree). The two are nested at the interior point omega_fg = omega_bg, so
+               P is chi-square(1). Two-sided: a foreground omega below the background one counts as much as one
+               above it.
 
 Each run folder holds alt/ and null/ with their own control files: codeml writes fixed-name scratch files
 (rst, rub, 2NG.*) into its working folder, so two runs sharing a folder corrupt each other without an error.
@@ -10,6 +18,7 @@ import re
 import subprocess
 
 TESTED = ("4.10.10",)   # releases whose mlc output this parser has been checked against
+MODELS = ("branch-site", "two-ratio")
 STARTS = [(0.5, 2.0), (1.5, 1.0), (3.0, 4.0), (0.2, 0.5), (5.0, 2.0), (0.8, 8.0)]   # (omega, kappa)
 
 CTL = """      seqfile = aln.phy
@@ -22,8 +31,8 @@ CTL = """      seqfile = aln.phy
     CodonFreq = 2
         clock = 0
        aaDist = 0
-        model = 2
-      NSsites = 2
+        model = {model}
+      NSsites = {nssites}
         icode = {icode}
     fix_kappa = 0
         kappa = {kappa}
@@ -60,19 +69,29 @@ def write_phylip(records, path):
             fh.write("%s  %s\n" % (n, s.replace("U", "T").replace(".", "-").replace("?", "N")))
 
 
-def write_run(d, records, tree_text, seed, codeml, icode=0):
+def fits(model, omega):
+    """(folder, model, NSsites, fix_omega, starting omega) for the alternative and the null."""
+    if model == "branch-site":
+        return (("alt", 2, 2, 0, omega), ("null", 2, 2, 1, 1.0))
+    if model == "two-ratio":
+        return (("alt", 2, 0, 0, omega), ("null", 0, 0, 0, omega))
+    raise ValueError("codeml model is one of %s, got %r" % (", ".join(MODELS), model))
+
+
+def write_run(d, records, tree_text, seed, codeml, icode=0, model="branch-site"):
     if not 1 <= seed <= len(STARTS):
         raise ValueError("codeml seeds pick one of %d starting points: use 1-%d" % (len(STARTS), len(STARTS)))
     omega, kappa = STARTS[(seed - 1) % len(STARTS)]
+    plan = fits(model, omega)
     os.makedirs(d)
-    for sub, fix, om in (("alt", 0, omega), ("null", 1, 1.0)):
+    for sub, mdl, nss, fix, om in plan:
         sd = os.path.join(d, sub)
         os.makedirs(sd)
         write_phylip(records, os.path.join(sd, "aln.phy"))
         with open(os.path.join(sd, "tree.nwk"), "w") as fh:
             fh.write(tree_text)
         with open(os.path.join(sd, "codeml.ctl"), "w") as fh:
-            fh.write(CTL.format(kappa=kappa, fix_omega=fix, omega=om, icode=icode))
+            fh.write(CTL.format(kappa=kappa, fix_omega=fix, omega=om, icode=icode, model=mdl, nssites=nss))
     with open(os.path.join(d, "cmd.sh"), "w") as fh:
         q = "'" + codeml.replace("'", "'\\''") + "'"
         # codeml 4.10.10 exits with status 1 after writing a complete mlc (seen with strace: exit_group(1), no
@@ -94,12 +113,28 @@ def parse_mlc(text):
     if fw:
         vals = [float(x) for x in fw.group(1).split()]
         r["foreground_w2"] = vals[-1] if vals else None
+    # model = 2, NSsites = 0: "w (dN/dS) for branches:  <omega of #0> <omega of #1>"
+    bw = re.search(r"w \(dN/dS\) for branches:\s+([0-9.\s]+)", text)
+    if bw:
+        vals = [float(x) for x in bw.group(1).split()]
+        if len(vals) >= 2:
+            r["omega_background"], r["omega_foreground"] = vals[0], vals[1]
+    om = re.search(r"omega \(dN/dS\)\s*=\s*([0-9.]+)", text)
+    if om:
+        r["omega"] = float(om.group(1))
     return r
 
 
 def chi2_1_sf(x):
     import math
     return math.erfc(math.sqrt(max(x, 0.0) / 2.0))
+
+
+def run_model(d):
+    """The model a run folder was written for, read from its alternative control file."""
+    t = _read(os.path.join(d, "alt", "codeml.ctl")) or ""
+    m = re.search(r"(?m)^\s*NSsites\s*=\s*(\d+)", t)
+    return "two-ratio" if m and m.group(1) == "0" else "branch-site"
 
 
 def read_run_dir(d):
@@ -119,7 +154,16 @@ def read_run_dir(d):
         out["warnings"].append("alternative logL below null by %.4f: rerun with other starts" % (-lrt / 2))
     vm = re.search(r"paml version (\S+?),", a)
     out["engine_version"] = "PAML %s" % vm.group(1) if vm else None
-    out.update(LRT=max(lrt, 0.0), p=0.5 * chi2_1_sf(lrt) if lrt > 0 else 1.0, K=pa.get("foreground_w2"),
+    model = run_model(d)
+    if model == "two-ratio":
+        if pa.get("omega_foreground") is None:
+            out["warnings"].append("alt/mlc does not report two branch omegas: is #1 on the tree?")
+        p = chi2_1_sf(lrt) if lrt > 0 else 1.0
+        k = pa.get("omega_foreground")
+    else:
+        p = 0.5 * chi2_1_sf(lrt) if lrt > 0 else 1.0
+        k = pa.get("foreground_w2")
+    out.update(LRT=max(lrt, 0.0), p=p, K=k, model=model,
                best_logL=pa["logL"], null_logL=pn["logL"], fits=[dict(pa, kind="alternative"), dict(pn, kind="null")],
                best_kind="alternative")
     return out

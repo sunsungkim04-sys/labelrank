@@ -48,7 +48,7 @@ def prepare(aln_path, tree_path, test, reference=None, engine="relax", code=1):
         reference = alternatives.UNLABELED
         bad = sorted(set(n.label for n in br if n.label and n.label != test))
         if bad:
-            errors.append("codeml branch-site model A takes one foreground mark; other marks found: %s" % ", ".join(bad))
+            errors.append("codeml takes one foreground mark (#1); other marks found: %s" % ", ".join(bad))
     if len(root.kids) == 2 and root.kids[0].label != root.kids[1].label:
         warnings.append("the two branches below a bifurcating root carry different labels (%r, %r); HyPhy merges "
                         "them into one branch" % (root.kids[0].label, root.kids[1].label))
@@ -89,7 +89,10 @@ def check_options(args, setup=True):
     if getattr(args, "exclude", None) is not None and any(not x.strip() for x in args.exclude):
         raise SetupError("--exclude got an empty name")
     if args.engine == "codeml" and args.test is not None and args.test != "#1":
-        raise SetupError("for codeml the test label is the branch-site foreground mark '#1' (got %r)" % args.test)
+        raise SetupError("for codeml the test label is the foreground mark '#1' (got %r)" % args.test)
+    model = getattr(args, "model", None)
+    if model is not None and args.engine != "codeml":
+        raise SetupError("--model chooses the codeml model (branch-site or two-ratio); RELAX has none")
     if not setup:
         return
     if not 0 < args.alpha < 1:
@@ -120,7 +123,9 @@ def setup(args, log=print):
         raise SetupError("%s exists and is not empty; refusing to write over earlier runs" % out)
     check_options(args)
     if args.engine == "codeml" and getattr(args, "direction", None):
-        raise SetupError("--direction is a side of RELAX's K; codeml's branch-site test is one-sided already")
+        raise SetupError("--direction is a side of RELAX's K; it is not implemented for codeml (branch-site is "
+                         "one-sided already; two-ratio ranks departures of the foreground omega either way)")
+    model = (getattr(args, "model", None) or "branch-site") if args.engine == "codeml" else None
     if args.alt_seeds is None:
         args.alt_seeds = list(args.seeds)
     elif sorted(args.alt_seeds) != sorted(args.seeds):
@@ -217,7 +222,7 @@ def setup(args, log=print):
     os.makedirs(os.path.join(out, "runs"))
     try:
         return _write(args, out, root, records, refarg, alt, alts, orig, matched, ratio, obs_len, named, version,
-                      relax_bf, code, code_name, icode, excl_desc, warnings, eng, log)
+                      relax_bf, code, code_name, icode, excl_desc, warnings, eng, log, model)
     except BaseException as e:
         # a half-written folder would block the retry ("exists and is not empty")
         import shutil
@@ -228,7 +233,7 @@ def setup(args, log=print):
 
 
 def _write(args, out, root, records, refarg, alt, alts, orig, matched, ratio, obs_len, named, version, relax_bf,
-           code, code_name, icode, excl_desc, warnings, eng, log):
+           code, code_name, icode, excl_desc, warnings, eng, log, model=None):
     test_set = set(alt["test"])
     rows = ["run\trole\tlabel\tseed\tn_branches\tlength\tlength_matched\tbranches\torder"]
     labels = [("observed", None)] + [("alt%03d" % (i + 1), a) for i, a in enumerate(alts)]
@@ -265,7 +270,7 @@ def _write(args, out, root, records, refarg, alt, alts, orig, matched, ratio, ob
                 eng.write_run(d, args.alignment, newick.write_hyphy(root, relabel), seed, args.test, refarg,
                               relax_bf, args.hyphy, code_name)
             else:
-                eng.write_run(d, records, newick.write_paml(root, relabel), seed, args.codeml, icode)
+                eng.write_run(d, records, newick.write_paml(root, relabel), seed, args.codeml, icode, model)
             with open(os.path.join(d, "expected_sets.json"), "w") as fh:
                 json.dump(exp, fh, indent=1)
             rows.append("%s\t%s\t%s\t%d\t%d\t%.9g\t%s\t%s\t%s" % (
@@ -274,7 +279,8 @@ def _write(args, out, root, records, refarg, alt, alts, orig, matched, ratio, ob
                 alternatives.describe(members), order_of.get(lab_id, "")))
     with open(os.path.join(out, "runs.tsv"), "w") as fh:
         fh.write("\n".join(rows) + "\n")
-    meta = {"tool": "labelrank", "engine": args.engine, "alignment": os.path.abspath(args.alignment),
+    meta = {"tool": "labelrank", "engine": args.engine, "codeml_model": model,
+            "alignment": os.path.abspath(args.alignment),
             "alignment_sha256": sha256(args.alignment), "tree": os.path.abspath(args.tree),
             "tree_sha256": sha256(args.tree), "test": args.test, "reference": refarg, "orig_label": orig,
             "seeds": args.seeds, "alt_seeds": args.alt_seeds, "length_ratio": ratio,
@@ -293,7 +299,8 @@ def _write(args, out, root, records, refarg, alt, alts, orig, matched, ratio, ob
             "tool_version": __version__}
     with open(os.path.join(out, "setup.json"), "w") as fh:
         json.dump(meta, fh, indent=1)
-    log("wrote %d run folders under %s/runs (engine %s: %s)" % (len(rows) - 1, out, args.engine, version))
+    log("wrote %d run folders under %s/runs (engine %s%s: %s)" % (
+        len(rows) - 1, out, args.engine, " " + model if model else "", version))
     return out
 
 
@@ -363,8 +370,11 @@ def add_seeds(out, seeds, which="alternatives", log=print):
             nctl = os.path.join(dst, "null", "codeml.ctl")
             with open(nctl) as fh:
                 t = fh.read()
+            t = re.sub(r"(?m)^(\s*kappa = ).*$", r"\g<1>%s" % kappa, t)
+            if re.search(r"(?m)^\s*fix_omega = 0\s*$", t):   # two-ratio: the one-ratio null starts from omega too
+                t = re.sub(r"(?m)^(\s*omega = ).*$", r"\g<1>%s" % omega, t)
             with open(nctl, "w") as fh:
-                fh.write(re.sub(r"(?m)^(\s*kappa = ).*$", r"\g<1>%s" % kappa, t))
+                fh.write(t)
         row = dict(r, run=run, seed=str(sd))
         new.append("\t".join(row.get(h, "") for h in head))
     if not new:

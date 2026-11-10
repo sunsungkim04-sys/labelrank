@@ -1,4 +1,4 @@
-include LICENSE README.md CITATION.cff
+include LICENSE README.md CITATION.cff CHANGELOG.md
 recursive-include tests *.py
 recursive-include examples *
 recursive-include validation *

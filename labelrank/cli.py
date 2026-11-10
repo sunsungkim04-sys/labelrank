@@ -30,7 +30,8 @@ def _ints(s):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="labelrank", description=(
-        "Rank a trait-labelled branch-selection test (HyPhy RELAX or codeml branch-site model A) among "
+        "Rank a trait-labelled branch-selection test (HyPhy RELAX, or codeml branch-site model A or the two-ratio "
+        "branch model) among "
         "every same-shaped label on the same tree."))
     ap.add_argument("--version", action="version", version="labelrank " + __version__)
     sub = ap.add_subparsers(dest="cmd")
@@ -77,6 +78,10 @@ def main(argv=None):
         s.add_argument("--hyphy", default="hyphy", help="hyphy executable")
         s.add_argument("--relax-bf", help="RELAX.bf to seed (default: the one shipped with --hyphy)")
         s.add_argument("--codeml", default="codeml", help="codeml executable")
+        s.add_argument("--model", choices=("branch-site", "two-ratio"), default=None,
+                       help="codeml model (default branch-site): branch-site = model A against omega2 = 1, P from "
+                            "the 50:50 mixture; two-ratio = model 2 against one ratio (model 0), NSsites = 0, P from "
+                            "chi-square(1)")
 
     s = sub.add_parser("setup", help="write one run folder per label and seed")
     inputs(s)
