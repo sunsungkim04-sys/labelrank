@@ -32,5 +32,8 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.24035697"
     description: "labelrank 0.5.0"
+  - type: doi
+    value: "10.5281/zenodo.24100322"
+    description: "labelrank 0.6.0"
 repository-code: "https://github.com/sunsungkim04-sys/labelrank"
 license: MIT
